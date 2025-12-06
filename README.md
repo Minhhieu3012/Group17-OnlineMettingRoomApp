@@ -1,87 +1,87 @@
-# 🧑🏻‍💻 HPH Meeting - Ứng dụng Phòng Họp Trực Tuyến
+# 🧑🏻‍💻 HPH Meeting - Online Meeting Application
 
-## 📌 Giới thiệu
-HPH Meeting là ứng dụng họp trực tuyến mô phỏng, hỗ trợ **real-time chat, voice chat, video call và multi-room**.  
-Được xây dựng theo mô hình **Client–Server với TCP & UDP**, sản phẩm hướng đến sự **trực quan, dễ hiểu và có thể mở rộng**.
-
----
-
-## 👀 Mục tiêu
-- Tạo nền tảng giao tiếp thời gian thực với hiệu suất cao.  
-- Đảm bảo an toàn cơ bản khi đăng nhập và truyền dữ liệu.  
-- Giao diện trực quan, dễ dùng bằng Tkinter.  
+## 📌 Introduction
+HPH Meeting is a simulated online meeting application that supports real-time text chat, voice chat, video calling, and multi-room communication.
+Built using a Client–Server architecture with TCP & UDP, the project focuses on being intuitive, easy to understand, and scalable.
 
 ---
 
-## 🔎 Tính năng
+## 👀 Objectives
+- Provide a high-performance real-time communication platform.
+- Ensure basic safety during login and data transmission.
+- Deliver a simple and intuitive Tkinter-based GUI.
 
-### 💬 Chat văn bản (TCP)
-- Truyền tin cậy với TCP (length-prefixed JSON).  
-- Hỗ trợ **chat nhóm trong phòng**.  
-- Server định tuyến tin nhắn đến đúng người.  
+---
+
+## 🔎 Key Features
+
+### 💬 Text Chat (TCP)
+- Reliable TCP messaging using length-prefixed JSON.
+- Supports room-based group chat.
+- Server handles message routing to correct recipients.
 
 ### 🎙️ Voice chat (UDP)
-- Truyền âm thanh **UDP** để giảm độ trễ.  
-- Dùng **PyAudio** (16kHz, mono, PCM).  
-- Hỗ trợ bật/tắt micro.  
+- Low-latency audio transmission with UDP.
+- Uses PyAudio (16 kHz, mono, PCM).
+- Supports microphone on/off control.
 
 ### 📹 Video call (UDP)
-- Thu webcam → nén JPEG → chia gói (MTU 1200B) → gửi UDP.  
-- Server relay frame theo phòng.  
-- Client ghép gói → giải nén → hiển thị video.  
-- Dùng **sequence number** để bỏ qua frame lỗi.  
-- Hỗ trợ bật/tắt camera.  
+- Captures webcam → compresses to JPEG → packetizes (MTU 1200B) → sends via UDP.
+- Server relays video frames based on active room.
+- Client reassembles packets → decompresses → displays video.
+- Uses sequence numbers to discard corrupted frames.
+- Supports camera on/off control.
 
 ### 🏠 Multi-room
-- Tạo/join/thoát phòng.  
-- Server duy trì danh sách phòng + thành viên.  
-- Giao diện Lobby hiển thị real-time số người.  
+- Create, join, and leave rooms.
+- Server maintains the room list and members.
+- Lobby UI displays real-time room statistics. 
 
-### 🔐 Bảo mật
-- Đăng nhập với **username + email**.  
-- Session key **AES-256-GCM** cho TCP messages.  
-- Input validation (regex).  
-- Rate limiting cho UDP.  
+### 🔐 Security
+- Login with username + email.
+- AES-256-GCM session keys for TCP messages.
+- Input validation via regex.
+- UDP rate limiting to prevent flooding attacks.
 
-### 🖥️ Giao diện
-- **Tkinter GUI**: Login, Lobby, Room.  
-- Điều khiển mic/cam, chat, tham gia phòng.  
-- Gateway WebSocket ⇄ UDP/TCP (hướng mở rộng).  
-
----
-
-## 🏗️ Kiến trúc
-- **Server**: quản lý user, phòng, relay dữ liệu.  
-- **Client**: gửi/nhận chat, audio, video.  
-- **Multi-room**: hỗ trợ nhiều phòng song song.  
+### 🖥️ User Interface
+- Tkinter GUI: Login, Lobby, Room.
+- Controls for microphone, camera, chat, and room participation.
+- WebSocket ⇄ TCP/UDP gateway support (for future expansion).
 
 ---
 
-## 📋 Yêu cầu
+## 🏗️ Architecture
+- Server: Manages users, rooms, routing, and relaying data.
+- Client: Sends/receives chat, audio, and video.
+- Multi-room: Fully supports multiple simultaneous rooms.  
+
+---
+
+## 📋 Requirements
 - Python 3.8+
 - Thư viện (xem requirements.txt):
 -	cryptography>=42.0
 -	numpy>=1.24
 -	pyaudio>=0.2.13
 -	opencv-python>=4.9.0
--	(Tùy chọn): Pillow để xử lý hình ảnh mượt hơn trong GUI.
+-	(Optional) Pillow for smoother GUI image processing.
 
 ---
 
-## Cài đặt (Implement)
+## Installation
 
-### 1. Cài đặt dependencies
+### 1. Install dependencies
 ```sh
 pip install -r requirements.txt
 ```
 
-### 2. (Tùy chọn) Cài đặt audio/video dependencies
-#### Cho video processing:
+### 2. (Optional) Install audio/video dependencies
+#### For video processing:
 ```sh
 pip install opencv-python
 ```
 
-#### Cho audio processing (cần build tools):
+#### For audio processing (may require build tools):
 ```sh
 pip install pyaudio
 
@@ -89,14 +89,14 @@ pip install pyaudio
 
 ---
 
-## Cách chạy nhanh (Quick start)
+## Quick start
 
-### 1. Khởi động server
+### 1. Start the server
 ```sh
 python main.py
 ```
 
-### 2. Khởi động phần giao diện (GUI)
+### 2. Launch the GUI client
 ```sh
 python -m Client.meeting_gui_client
 ```
